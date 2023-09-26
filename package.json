@@ -1,0 +1,25 @@
+{
+  "name": "otui-highlights",
+  "displayName": "OTUI Highlights",
+  "description": "Syntax highlighting for OTUI components",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "otui",
+      "aliases": ["OTUI", "otui"],
+      "extensions": [".otui", ".otmod"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "otui",
+      "scopeName": "",
+      "path": "./syntaxes/otui.tmLanguage.json"
+    }]
+  }
+}
