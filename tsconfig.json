@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "./out",
+    "rootDir": "./",
+    "module": "commonjs",
+    "target": "es6",
+    "types": ["@types/vscode"],
+    "strict": true,
+  },
+  "include": ["*.ts"]
+}

@@ -3,23 +3,75 @@
   "displayName": "OTUI Highlights",
   "description": "Syntax highlighting for OTUI components",
   "version": "0.0.1",
+  "main": "./out/extension.js",
   "engines": {
     "vscode": "^1.82.0"
+  },
+  "scripts": {
+    "compile": "npx tsc"
   },
   "categories": [
     "Programming Languages"
   ],
   "contributes": {
-    "languages": [{
-      "id": "otui",
-      "aliases": ["OTUI", "otui"],
-      "extensions": [".otui", ".otmod"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "otui",
-      "scopeName": "",
-      "path": "./syntaxes/otui.tmLanguage.json"
-    }]
+    "languages": [
+      {
+        "id": "otui",
+        "aliases": [
+          "OTUI",
+          "otui"
+        ],
+        "extensions": [
+          ".otui"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "otmod",
+        "aliases": [
+          "OTMOD",
+          "otmod"
+        ],
+        "extensions": [
+          ".otmod"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "otui",
+        "scopeName": "source.otui",
+        "path": "./syntaxes/otui.tmLanguage.json"
+      },
+      {
+        "language": "otmod",
+        "scopeName": "source.otmod",
+        "path": "./syntaxes/otmod.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "otui",
+        "path": "./snippets/otui-snippets.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "extension.insertComponentTemplate",
+        "title": "Inserir Template de Componente"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.insertComponentTemplate",
+        "key": "ctrl+alt+c",
+        "mac": "cmd+alt+c"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.82.0",
+    "typescript": "^5.2.2"
   }
 }

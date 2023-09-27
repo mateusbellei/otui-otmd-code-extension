@@ -1,0 +1,10 @@
+{
+  "Create Component": {
+    "prefix": "otui-component",
+    "body": [
+      "${1:ComponentName} < ${2:ParentComponent}",
+      "  prop: value"
+    ],
+    "description": "Create a new component"
+  }
+}
