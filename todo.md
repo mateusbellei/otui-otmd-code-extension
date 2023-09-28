@@ -1,0 +1,3 @@
+- [ ] Finish OTUI Common Properties
+- [ ] Create OTUI Common Property Values for OTUI Properties "anchors"
+- [ ] Create intellisense to get all functions of lua file in same folder of current .lua in OTUI
