@@ -6,6 +6,7 @@
     "target": "es6",
     "types": ["@types/vscode"],
     "strict": true,
+    "lib": ["es2019"],
   },
   "include": ["*.ts"]
 }
