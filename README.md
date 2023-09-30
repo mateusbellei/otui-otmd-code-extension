@@ -31,17 +31,17 @@ This extension contributes the following settings:
 
 Calling out known issues can help limit users opening duplicate issues against your extension.
 
-## Release Notes
+## Release Notes -> check CHANGELOG.md
 
 Users appreciate release notes as you update your extension.
 
 ### 1.0.0
 
-Initial release of ...
+Official Launch, check CHANGELOG.md
 
 ### 1.0.1
 
-Fixed issue #.
+upcoming features, fixes, bugs, etc.
 
 ### 1.1.0
 
