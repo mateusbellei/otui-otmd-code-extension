@@ -1,65 +1,22 @@
-# otui-highlights README
+# OTClient Syntax Highlight Intellisense
 
-This is the README for your extension "otui-highlights". After writing up a brief description, we recommend including the following sections.
+This extension provides support for `.otui` and `.otmod` files.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Syntax highlighting for `.otui` and `.otmod`.
+- Autocomplete for properties and values.
 
-For example if there is an image subfolder under your extension project workspace:
+## How to Use
 
-\!\[feature X\]\(images/feature-x.png\)
+1. Install the extension in VS Code.
+2. Open a `.otui` or `.otmod` file.
+3. Start typing, and the extension will provide autocomplete suggestions.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Contributing
 
-## Requirements
+If you find any issues or have a suggestion for improvement, please open an issue on GitHub.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Change Log
 
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes -> check CHANGELOG.md
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Official Launch, check CHANGELOG.md
-
-### 1.0.1
-
-upcoming features, fixes, bugs, etc.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Check change log for updates
