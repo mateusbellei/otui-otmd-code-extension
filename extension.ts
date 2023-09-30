@@ -1,8 +1,34 @@
 
 import * as vscode from "vscode";
+import * as fs from 'fs';
 import otuiCommonProperties from "./constants/otuiCommonProperties";
+import { otuiFunctionTriggerProperties } from './constants/otuiFunctionTriggerProperties';
+
+// Função para obter todas as funções de um arquivo `.lua`
+function getFunctionsFromLuaFile(luaFilePath: string): string[] {
+  const data = fs.readFileSync(luaFilePath, 'utf8');
+  const functionMatches = data.match(/function\s+(\w+)\s*\(/g);
+  const functionNames = functionMatches ? functionMatches.map((func: string) => func.replace(/function\s+|\s*\(/g, '')) : [];
+  return functionNames;
+}
 
 export function activate(context: vscode.ExtensionContext) {
+
+  // Novo CompletionItemProvider para funções Lua
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider('otui', {
+      provideCompletionItems(document: vscode.TextDocument) {
+        const luaFilePath = document.fileName.replace(/\.otui$/, '.lua');
+        const functionNames = getFunctionsFromLuaFile(luaFilePath);
+        return functionNames.map(name => {
+          const item = new vscode.CompletionItem(name, vscode.CompletionItemKind.Function);
+          item.insertText = new vscode.SnippetString(name + '($0)');
+          return item;
+        });
+      },
+    })
+  );
+
   // Register Completion Item Provider
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider("otui", {
@@ -52,6 +78,18 @@ export function activate(context: vscode.ExtensionContext) {
                 );
                 item.detail = value.detail;
                 item.insertText = new vscode.SnippetString(value.insertText + "$0");
+                return item;
+              });
+            } else if (otuiFunctionTriggerProperties.includes(linePrefix.trim())) {
+              // Se @onClick foi digitado, obtenha todas as funções do arquivo Lua correspondente
+              const luaFilePath = document.fileName.replace(/\.otui$/, '.lua');
+              const functionNames = getFunctionsFromLuaFile(luaFilePath);
+              return functionNames.map(funcName => {
+                const item = new vscode.CompletionItem(
+                  funcName,
+                  vscode.CompletionItemKind.Function
+                );
+                item.insertText = new vscode.SnippetString(funcName + "()");
                 return item;
               });
             }

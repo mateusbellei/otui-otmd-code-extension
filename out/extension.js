@@ -2,8 +2,29 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = void 0;
 const vscode = require("vscode");
+const fs = require("fs");
 const otuiCommonProperties_1 = require("./constants/otuiCommonProperties");
+const otuiFunctionTriggerProperties_1 = require("./constants/otuiFunctionTriggerProperties");
+// Função para obter todas as funções de um arquivo `.lua`
+function getFunctionsFromLuaFile(luaFilePath) {
+    const data = fs.readFileSync(luaFilePath, 'utf8');
+    const functionMatches = data.match(/function\s+(\w+)\s*\(/g);
+    const functionNames = functionMatches ? functionMatches.map((func) => func.replace(/function\s+|\s*\(/g, '')) : [];
+    return functionNames;
+}
 function activate(context) {
+    // Novo CompletionItemProvider para funções Lua
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('otui', {
+        provideCompletionItems(document) {
+            const luaFilePath = document.fileName.replace(/\.otui$/, '.lua');
+            const functionNames = getFunctionsFromLuaFile(luaFilePath);
+            return functionNames.map(name => {
+                const item = new vscode.CompletionItem(name, vscode.CompletionItemKind.Function);
+                item.insertText = new vscode.SnippetString(name + '($0)');
+                return item;
+            });
+        },
+    }));
     // Register Completion Item Provider
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider("otui", {
         provideCompletionItems(document, position) {
@@ -38,6 +59,16 @@ function activate(context) {
                             const item = new vscode.CompletionItem(value.label, vscode.CompletionItemKind.Value);
                             item.detail = value.detail;
                             item.insertText = new vscode.SnippetString(value.insertText + "$0");
+                            return item;
+                        });
+                    }
+                    else if (otuiFunctionTriggerProperties_1.otuiFunctionTriggerProperties.includes(linePrefix.trim())) {
+                        // Se @onClick foi digitado, obtenha todas as funções do arquivo Lua correspondente
+                        const luaFilePath = document.fileName.replace(/\.otui$/, '.lua');
+                        const functionNames = getFunctionsFromLuaFile(luaFilePath);
+                        return functionNames.map(funcName => {
+                            const item = new vscode.CompletionItem(funcName, vscode.CompletionItemKind.Function);
+                            item.insertText = new vscode.SnippetString(funcName + "()");
                             return item;
                         });
                     }
