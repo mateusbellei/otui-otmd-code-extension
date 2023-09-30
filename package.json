@@ -68,9 +68,13 @@
         "key": "ctrl+alt+c",
         "mac": "cmd+alt+c"
       }
+    ],
+    "permissions": [
+      "fs"
     ]
   },
   "devDependencies": {
+    "@types/node": "^20.7.1",
     "@types/vscode": "^1.82.0",
     "typescript": "^5.2.2"
   }
