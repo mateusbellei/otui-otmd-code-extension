@@ -1,7 +1,7 @@
 {
   "name": "otui-highlights",
-  "displayName": "OTUI Highlights",
-  "description": "Syntax highlighting for OTUI components",
+  "displayName": "OTClient Syntax Highlight Intellisense",
+  "description": "Support to .otui and .otmod files",
   "version": "0.0.1",
   "main": "./out/extension.js",
   "engines": {
