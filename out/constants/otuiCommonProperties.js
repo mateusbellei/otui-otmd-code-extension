@@ -174,12 +174,22 @@ const otuiCommonProperties = [
     {
         label: "auto-focus",
         detail: "Property: Sets the auto-focus of the component",
-        insertText: "auto-focus: ",
+        insertText: "auto-focus: first",
     },
     {
         label: "anchors.rightBaseline",
         detail: "Property: Sets the right baseline of the component",
         insertText: "anchors.rightBaseline: ",
+    },
+    {
+        label: "background-color",
+        detail: "Property: Sets the background color of the component",
+        insertText: "background-color: ",
+    },
+    {
+        label: "border",
+        detail: "Property: Sets the border of the component",
+        insertText: "border: 1 black",
     },
     {
         label: "border-width",
@@ -232,9 +242,19 @@ const otuiCommonProperties = [
         insertText: "change-cursor-image: true",
     },
     {
+        label: "clipping",
+        detail: "Property: Sets the clipping of the component true/false",
+        insertText: "clipping: true",
+    },
+    {
         label: "draggable",
         detail: "Property: Sets if the component is draggable or not true/false",
         insertText: "draggable: true",
+    },
+    {
+        label: "horizontal-scrollbar",
+        detail: "Property: Sets the horizontal scrollbar of the component true/false",
+        insertText: "horizontal-scrollbar: true",
     },
     {
         label: "text-offset",
@@ -255,6 +275,11 @@ const otuiCommonProperties = [
         label: "text-wrap",
         detail: "Property: Sets the text alignment in the component, can be left, right or center",
         insertText: "text-align: ",
+    },
+    {
+        label: "icon",
+        detail: "Property: Sets the icon of the component",
+        insertText: "icon: ",
     },
     {
         label: "image-source",
@@ -295,6 +320,31 @@ const otuiCommonProperties = [
         label: "id",
         detail: "Property: Sets the id: variable of the component",
         insertText: "id: ",
+    },
+    {
+        label: "margin",
+        detail: "Property: Sets the margin of the component",
+        insertText: "margin: ",
+    },
+    {
+        label: "margin-top",
+        detail: "Property: Sets the top margin of the component",
+        insertText: "margin-top: ",
+    },
+    {
+        label: "margin-left",
+        detail: "Property: Sets the left margin of the component",
+        insertText: "margin-left: ",
+    },
+    {
+        label: "margin-right",
+        detail: "Property: Sets the right margin of the component",
+        insertText: "margin-right: ",
+    },
+    {
+        label: "margin-bottom",
+        detail: "Property: Sets the bottom margin of the component",
+        insertText: "margin-bottom: ",
     },
     {
         label: "layout",
@@ -365,6 +415,11 @@ const otuiCommonProperties = [
         label: "height",
         detail: "Property: Sets the height of the component",
         insertText: "height: ",
+    },
+    {
+        label: "vertical-scrollbar",
+        detail: "Property: Sets the vertical scrollbar of the component",
+        insertText: "vertical-scrollbar: ",
     },
     {
         label: "visible",
