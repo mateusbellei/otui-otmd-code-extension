@@ -5,6 +5,7 @@ const vscode = require("vscode");
 const fs = require("fs");
 const otuiCommonProperties_1 = require("./constants/otuiCommonProperties");
 const otuiFunctionTriggerProperties_1 = require("./constants/otuiFunctionTriggerProperties");
+const otmodCommonProperties_1 = require("./constants/otmodCommonProperties");
 // Função para obter todas as funções de um arquivo `.lua`
 function getFunctionsFromLuaFile(luaFilePath) {
     const data = fs.readFileSync(luaFilePath, 'utf8');
@@ -25,7 +26,7 @@ function activate(context) {
             });
         },
     }));
-    // Register Completion Item Provider
+    // Register Completion Item Provider to OTUI
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider("otui", {
         provideCompletionItems(document, position) {
             const linePrefix = document.lineAt(position).text.substr(0, position.character);
@@ -73,6 +74,24 @@ function activate(context) {
                         });
                     }
                 }
+            }
+        },
+        resolveCompletionItem(item) {
+            item.documentation = new vscode.MarkdownString(`Documentation for \`${item.label}\``);
+            return item;
+        },
+    }));
+    //Register Completion Item Provider to OTMOD
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider("otmod", {
+        provideCompletionItems(document, position) {
+            const linePrefix = document.lineAt(position).text.substr(0, position.character);
+            if (!linePrefix.trim()) {
+                return otmodCommonProperties_1.default.map((prop) => {
+                    const item = new vscode.CompletionItem(prop.label, vscode.CompletionItemKind.Property);
+                    item.detail = prop.detail;
+                    item.insertText = new vscode.SnippetString(prop.insertText + "$0");
+                    return item;
+                });
             }
         },
         resolveCompletionItem(item) {
