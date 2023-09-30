@@ -4,7 +4,7 @@
   "description": "Support to .otui and .otmod files",
   "version": "1.0.0",
   "icon": "icon.png",
-  "publisher": "m7bellei",
+  "publisher": "MateusBellei",
   "main": "./out/extension.js",
   "activationEvents": [
     "onLanguage:otui",
