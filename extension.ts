@@ -5,6 +5,8 @@ import otuiCommonProperties from "./constants/otuiCommonProperties";
 import { otuiFunctionTriggerProperties } from './constants/otuiFunctionTriggerProperties';
 import otmodCommonProperties from "./constants/otmodCommonProperties";
 
+import OtuiPreviewPanel from './classes/otuiPreviewPanel';
+
 
 // Função para obter todas as funções de um arquivo `.lua`
 function getFunctionsFromLuaFile(luaFilePath: string): string[] {
@@ -145,4 +147,18 @@ export function activate(context: vscode.ExtensionContext) {
       }
     })
   );
+
+  // Register Command to Preview OTUI
+  context.subscriptions.push(
+    vscode.commands.registerCommand('extension.openOtuiPreview', () => {
+      OtuiPreviewPanel.createOrShow(context.extensionUri);
+    })
+  );
+
+  // Event to trigger OtuiPreviewPanel when open otui file
+  vscode.workspace.onDidOpenTextDocument(document => {
+    if (document.languageId === 'otui') {
+      OtuiPreviewPanel.createOrShow(context.extensionUri);
+    }
+  });  
 }

@@ -6,6 +6,7 @@ const fs = require("fs");
 const otuiCommonProperties_1 = require("./constants/otuiCommonProperties");
 const otuiFunctionTriggerProperties_1 = require("./constants/otuiFunctionTriggerProperties");
 const otmodCommonProperties_1 = require("./constants/otmodCommonProperties");
+const otuiPreviewPanel_1 = require("./classes/otuiPreviewPanel");
 // Função para obter todas as funções de um arquivo `.lua`
 function getFunctionsFromLuaFile(luaFilePath) {
     const data = fs.readFileSync(luaFilePath, 'utf8');
@@ -106,5 +107,15 @@ function activate(context) {
             editor.insertSnippet(new vscode.SnippetString("${1:ComponentName} < ${2:ParentComponent}\n  prop: value"));
         }
     }));
+    // Register Command to Preview OTUI
+    context.subscriptions.push(vscode.commands.registerCommand('extension.openOtuiPreview', () => {
+        otuiPreviewPanel_1.default.createOrShow(context.extensionUri);
+    }));
+    // Event to trigger OtuiPreviewPanel when open otui file
+    vscode.workspace.onDidOpenTextDocument(document => {
+        if (document.languageId === 'otui') {
+            otuiPreviewPanel_1.default.createOrShow(context.extensionUri);
+        }
+    });
 }
 exports.activate = activate;

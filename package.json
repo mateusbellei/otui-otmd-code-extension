@@ -70,6 +70,10 @@
       {
         "command": "extension.insertComponentTemplate",
         "title": "Inserir Template de Componente"
+      },
+      {
+        "command": "extension.openOtuiPreview",
+        "title": "Open OTUI Preview"
       }
     ],
     "keybindings": [
