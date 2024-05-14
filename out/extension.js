@@ -115,47 +115,47 @@ function activate(context) {
             editor.insertSnippet(new vscode.SnippetString("${1:ComponentName} < ${2:ParentComponent}\n  prop: value"));
         }
     }));
-    class LuaFunctionDefinitionProvider {
-        provideDefinition(document, position, token) {
-            return __awaiter(this, void 0, void 0, function* () {
-                const line = document.lineAt(position);
-                const lineText = line.text;
-                const functionNameMatch = lineText.match(/@[\w]+: ([\w.]+)\(/);
-                if (functionNameMatch) {
-                    const fullFunctionName = functionNameMatch[1];
-                    const functionName = fullFunctionName.split('.').pop() || ""; // Usa string vazia como valor padrão
-                    const luaFilePath = document.fileName.replace(/\.otui$/, '.lua');
-                    // Use a função existente para obter os nomes das funções do arquivo Lua
-                    const functionNames = this.getFunctionsFromLuaFile(luaFilePath);
-                    if (functionNames.includes(functionName)) {
-                        const luaDocument = yield vscode.workspace.openTextDocument(luaFilePath);
-                        const luaText = luaDocument.getText();
-                        const functionRegex = new RegExp(`function\\s+${functionName}\\s*\\(`, 'g');
-                        let match;
-                        while ((match = functionRegex.exec(luaText)) !== null) {
-                            const startPos = luaDocument.positionAt(match.index);
-                            const endPos = luaDocument.positionAt(match.index + match[0].length);
-                            return new vscode.Location(vscode.Uri.file(luaFilePath), new vscode.Range(startPos, endPos));
-                        }
-                    }
-                }
-            });
-        }
-        getFunctionsFromLuaFile(luaFilePath) {
-            try {
-                const data = fs.readFileSync(luaFilePath, 'utf8');
-                const functionMatches = data.match(/function\s+([\w.]+)\s*\(/g);
-                return functionMatches ? functionMatches.map(func => {
-                    const name = func.replace(/function\s+|\s*\(/g, '').split('.').pop();
-                    return name || ""; // Usa string vazia como valor padrão para evitar undefined
-                }) : [];
-            }
-            catch (error) {
-                console.error("Error reading Lua file:", error);
-                return [];
-            }
-        }
-    }
     context.subscriptions.push(vscode.languages.registerDefinitionProvider({ language: 'otui', scheme: 'file' }, new LuaFunctionDefinitionProvider()));
 }
 exports.activate = activate;
+class LuaFunctionDefinitionProvider {
+    provideDefinition(document, position, token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const line = document.lineAt(position);
+            const lineText = line.text;
+            const functionNameMatch = lineText.match(/@[\w]+: ([\w.]+)\(/);
+            if (functionNameMatch) {
+                const fullFunctionName = functionNameMatch[1];
+                const functionName = fullFunctionName.split('.').pop() || ""; // Usa string vazia como valor padrão
+                const luaFilePath = document.fileName.replace(/\.otui$/, '.lua');
+                // Use a função existente para obter os nomes das funções do arquivo Lua
+                const functionNames = this.getFunctionsFromLuaFile(luaFilePath);
+                if (functionNames.includes(functionName)) {
+                    const luaDocument = yield vscode.workspace.openTextDocument(luaFilePath);
+                    const luaText = luaDocument.getText();
+                    const functionRegex = new RegExp(`function\\s+${functionName}\\s*\\(`, 'g');
+                    let match;
+                    while ((match = functionRegex.exec(luaText)) !== null) {
+                        const startPos = luaDocument.positionAt(match.index);
+                        const endPos = luaDocument.positionAt(match.index + match[0].length);
+                        return new vscode.Location(vscode.Uri.file(luaFilePath), new vscode.Range(startPos, endPos));
+                    }
+                }
+            }
+        });
+    }
+    getFunctionsFromLuaFile(luaFilePath) {
+        try {
+            const data = fs.readFileSync(luaFilePath, 'utf8');
+            const functionMatches = data.match(/function\s+([\w.]+)\s*\(/g);
+            return functionMatches ? functionMatches.map(func => {
+                const name = func.replace(/function\s+|\s*\(/g, '').split('.').pop();
+                return name || ""; // Usa string vazia como valor padrão para evitar undefined
+            }) : [];
+        }
+        catch (error) {
+            console.error("Error reading Lua file:", error);
+            return [];
+        }
+    }
+}
