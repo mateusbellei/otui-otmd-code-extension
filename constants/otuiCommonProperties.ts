@@ -281,12 +281,12 @@ const otuiCommonProperties: OtuiProperty[] = [
   {
     label: "text-auto-resize",
     detail:"Property: Sets the text alignment in the component, can be left, right or center",
-    insertText: "text-align: ",
+    insertText: "text-auto-resize: ",
   },
   {
     label: "text-wrap",
     detail:"Property: Sets the text alignment in the component, can be left, right or center",
-    insertText: "text-align: ",
+    insertText: "text-wrap: ",
   },
   {
     label: "icon",
