@@ -2,7 +2,7 @@
   "name": "otui-highlights",
   "displayName": "OTClient Syntax Highlight Intellisense",
   "description": "Support to .otui and .otmod files",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "icon": "icon.png",
   "publisher": "MateusBellei",
   "main": "./out/extension.js",
