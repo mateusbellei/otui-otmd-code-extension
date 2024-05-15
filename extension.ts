@@ -152,6 +152,11 @@ export function activate(context: vscode.ExtensionContext) {
       new LuaFunctionDefinitionProvider()
     )
   );
+
+  context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider('otui', new OTUIFormatter()),
+    vscode.languages.registerDocumentRangeFormattingEditProvider('otui', new OTUIFormatter())
+  );
 }
 
 class LuaFunctionDefinitionProvider implements vscode.DefinitionProvider {
@@ -198,5 +203,47 @@ class LuaFunctionDefinitionProvider implements vscode.DefinitionProvider {
       console.error("Error reading Lua file:", error);
       return [];
     }
+  }
+}
+
+class OTUIFormatter implements vscode.DocumentFormattingEditProvider, vscode.DocumentRangeFormattingEditProvider {
+  provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
+    return this.formatText(document, null);
+  }
+
+  provideDocumentRangeFormattingEdits(document: vscode.TextDocument, range: vscode.Range): vscode.TextEdit[] {
+    return this.formatText(document, range);
+  }
+
+  private formatText(document: vscode.TextDocument, range: vscode.Range | null): vscode.TextEdit[] {
+    const edits: vscode.TextEdit[] = [];
+    let previousLineWasComponent = false;
+    let componentIndentationLevel = 0;
+
+    const startLine = range ? range.start.line : 0;
+    const endLine = range ? range.end.line : document.lineCount - 1;
+
+    for (let i = startLine; i <= endLine; i++) {
+      const line = document.lineAt(i);
+      const trimmedLine = line.text.trim();
+
+      if (this.isComponentDeclaration(trimmedLine)) {
+        // Reset the flag if this is a component declaration
+        previousLineWasComponent = true;
+        componentIndentationLevel = line.firstNonWhitespaceCharacterIndex;
+      } else if (previousLineWasComponent) {
+        // Apply two-space indentation if the previous line was a component
+        const desiredIndentation = ' '.repeat(componentIndentationLevel + 2);  // Two spaces beyond the component's indentation
+        edits.push(vscode.TextEdit.replace(new vscode.Range(i, 0, i, line.firstNonWhitespaceCharacterIndex), desiredIndentation));
+        previousLineWasComponent = false;
+      }
+    }
+
+    return edits;
+  }
+
+  private isComponentDeclaration(lineText: string): boolean {
+    // Check if the line starts with a capital letter and resembles a component declaration
+    return /^[A-Z]/.test(lineText) || lineText.includes('<');
   }
 }

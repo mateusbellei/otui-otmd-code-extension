@@ -116,6 +116,7 @@ function activate(context) {
         }
     }));
     context.subscriptions.push(vscode.languages.registerDefinitionProvider({ language: 'otui', scheme: 'file' }, new LuaFunctionDefinitionProvider()));
+    context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider('otui', new OTUIFormatter()), vscode.languages.registerDocumentRangeFormattingEditProvider('otui', new OTUIFormatter()));
 }
 exports.activate = activate;
 class LuaFunctionDefinitionProvider {
@@ -157,5 +158,40 @@ class LuaFunctionDefinitionProvider {
             console.error("Error reading Lua file:", error);
             return [];
         }
+    }
+}
+class OTUIFormatter {
+    provideDocumentFormattingEdits(document) {
+        return this.formatText(document, null);
+    }
+    provideDocumentRangeFormattingEdits(document, range) {
+        return this.formatText(document, range);
+    }
+    formatText(document, range) {
+        const edits = [];
+        let previousLineWasComponent = false;
+        let componentIndentationLevel = 0;
+        const startLine = range ? range.start.line : 0;
+        const endLine = range ? range.end.line : document.lineCount - 1;
+        for (let i = startLine; i <= endLine; i++) {
+            const line = document.lineAt(i);
+            const trimmedLine = line.text.trim();
+            if (this.isComponentDeclaration(trimmedLine)) {
+                // Reset the flag if this is a component declaration
+                previousLineWasComponent = true;
+                componentIndentationLevel = line.firstNonWhitespaceCharacterIndex;
+            }
+            else if (previousLineWasComponent) {
+                // Apply two-space indentation if the previous line was a component
+                const desiredIndentation = ' '.repeat(componentIndentationLevel + 2); // Two spaces beyond the component's indentation
+                edits.push(vscode.TextEdit.replace(new vscode.Range(i, 0, i, line.firstNonWhitespaceCharacterIndex), desiredIndentation));
+                previousLineWasComponent = false;
+            }
+        }
+        return edits;
+    }
+    isComponentDeclaration(lineText) {
+        // Check if the line starts with a capital letter and resembles a component declaration
+        return /^[A-Z]/.test(lineText) || lineText.includes('<');
     }
 }
